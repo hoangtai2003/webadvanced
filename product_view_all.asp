@@ -11,13 +11,15 @@
 		pprice = Request.Form("txtPprice")
 		pquantity = Request.Form("txtPquantity")
 		pstatus=Request.Form("rdPstatus")
+		mathuonghieu = Request.Form("mathuonghieu")
+		manhacc = Request.Form("manhacc")
 		'Kiểm tra nếu tên sản phẩm có rồi thì báo lỗi
 		sql="select * From 0203466_product_1682 where pname='" & pname &"'"
 		rs.open sql, conn 
 		if (not rs.eof) then
 			Session("product_error")="Tên sản phẩm: " & pname &" đã có rồi!"	
 		else 
-			sql = "insert into 0203466_product_1682(pname,pdesc,pimage,cid,pstatus,pprice,pquantity) values ('" & pname & "','" & pdesc & "','" & pimage & "'," & cid & "," & pstatus & "," &pprice & "," & pquantity & ")"
+			sql = "insert into 0203466_product_1682(pname,pdesc,pimage,cid,pstatus,pprice,pquantity,mathuonghieu, manhacc ) values ('" & pname & "','" & pdesc & "','" & pimage & "'," & cid & "," & pstatus & "," &pprice & "," & pquantity & ", "& mathuonghieu &", "& manhacc &")"
 			'Response.write(sql)
 			conn.execute sql 
 			Session("product_error")="Thêm mới thành công"
@@ -29,6 +31,8 @@
 		pimage=Request.Form("txtPimage")
 		cid=Request.Form("slCid")
 		pstatus=Request.Form("rdPstatus")
+		mathuonghieu = Request.Form("mathuonghieu")
+		manhacc = Request.Form("manhacc")
 		'Kiểm tra nếu tên danh mục có rồi thì báo lỗi
 		sql="select * From 0203466_product_1682 where pname='" & pname &"' and pid<>" & pid 
 		rs.open sql, conn 
@@ -36,15 +40,19 @@
 			Session("product_error")="Tên sản phẩm: " & pname &" đã có rồi!"
 				
 		else 
-			sql = "update 0203466_product_1682 set pname='" & pname & "',pdesc='" & pdesc & "',pimage ='" & pimage & "', cid = " & cid & ",pstatus = " & pstatus & " where pid = " & pid 
+			sql = "update 0203466_product_1682 set pname='" & pname & "',pdesc='" & pdesc & "',pimage ='" & pimage & "', cid = " & cid & ",pstatus = " & pstatus & ", mathuonghieu = "& mathuonghieu &", manhacc = "& manhacc &" where pid = " & pid 
 			'Response.write(sql)
 			conn.execute sql 
 			Session("product_error")="Cập nhật thành công"
 		end if
 		rs.close 
 	end select 
-	sql = "select [0203466_product_1682].*,[0203466_categories_1682].cname from 0203466_product_1682, 0203466_categories_1682 where [0203466_product_1682].cid = [0203466_categories_1682].cid"
+	sql = "select [0203466_product_1682].*,[0203466_categories_1682].cname, Thuonghieu.tenthuonghieu, Nhacungcap.tennhacc from 0203466_product_1682, 0203466_categories_1682, Thuonghieu, Nhacungcap where [0203466_product_1682].cid = [0203466_categories_1682].cid and [0203466_product_1682].mathuonghieu = Thuonghieu.mathuonghieu and [0203466_product_1682].manhacc = Nhacungcap.manhacc "
 	rs.open sql, conn  
+	sql1 = "select * from Thuonghieu"
+	rs1.open sql1, conn
+	sql2 = "select * from Nhacungcap"
+	rs2.open sql2, conn
 %>
 <html>
 	<head>
@@ -63,13 +71,15 @@
 					<th>Mô tả</th>
 					<th>Ảnh</th>
 					<th>Nhóm sản phẩm</th>
+					<th>Tên thương hiệu</th>
+					<th>Tên nhà cung cấp</th>
 					<th>Trạng thái</th>
 					<th>Sửa</th>
 					<th>Xóa</th>
 				</tr>
 				<%
 				if (rs.eof) then
-					response.write("<tr><td colspan=8>Tập dữ liệu rỗng!</td></tr>")
+					response.write("<tr><td colspan=10>Tập dữ liệu rỗng!</td></tr>")
 				else
 					while not rs.eof 
 					if ((action="edit") and (rs("pid")=cint(pid))) then
@@ -96,6 +106,46 @@
 											rs2.movenext
 											wend
 											rs2.close
+											
+										%>
+									</select>
+								</td>
+								<td>
+									<select name=mathuonghieu>
+										<% 
+											rs3.open "select * from Thuonghieu", conn 
+										while not rs3.eof 
+										%>
+											<option value="<%=rs3("mathuonghieu")%>"
+											<% if rs3("mathuonghieu")=rs("mathuonghieu") then	
+												response.write(" selected ")
+												end if 
+											%>
+											><%=rs3("tenthuonghieu")%></option>
+										<%
+											rs3.movenext
+											wend
+											rs3.close
+											
+										%>
+									</select>
+								</td>
+								<td>
+									<select name=manhacc>
+										<% 
+											rs4.open "select * from Nhacungcap", conn 
+										while not rs4.eof 
+										%>
+											<option value="<%=rs4("manhacc")%>"
+											<% if rs4("manhacc")=rs("manhacc") then	
+												response.write(" selected ")
+												end if 
+											%>
+											><%=rs4("tennhacc")%></option>
+										<%
+											rs4.movenext
+											wend
+											rs4.close
 											
 										%>
 									</select>
@@ -129,6 +179,8 @@
 						<td><%=rs("pdesc")%></td>
 						<td><img src="images/<%=rs("pimage")%>" width=200></td>
 						<td><%=rs("cname")%></td>
+						<td><%=rs("tenthuonghieu")%></td>
+						<td><%=rs("tennhacc")%></td>
 						<td><%
 								if (rs("pstatus")=1) then
 									response.write("Hoạt động")
@@ -195,7 +247,38 @@
 						</select>
 					</td>
 				</tr>
-				
+				<tr>
+					<td>Thương hiệu:</td>
+					<td>
+						<select name=mathuonghieu>
+							<% while not rs1.eof 
+							%>
+								<option value="<%=rs1("mathuonghieu")%>"><%=rs1("tenthuonghieu")%></option>
+							<%
+								rs1.movenext
+								wend
+								rs1.close
+								'conn.close
+							%>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Nhà cung cấp:</td>
+					<td>
+						<select name=manhacc>
+							<% while not rs2.eof 
+							%>
+								<option value="<%=rs2("manhacc")%>"><%=rs2("tennhacc")%></option>
+							<%
+								rs2.movenext
+								wend
+								rs2.close
+								'conn.close
+							%>
+						</select>
+					</td>
+				</tr>
 				<tr>
 					<td>Trạng thái:</td>
 					<td><input type=radio checked name=rdPstatus value=1>Hoạt động

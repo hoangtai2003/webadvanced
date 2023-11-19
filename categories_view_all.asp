@@ -7,7 +7,7 @@
 		cname=Request.Form("txtCname")
 		cdesc=Request.Form("taCdesc")
 		cimage=Request.Form("txtCimage")
-        corder=Request.Form("txtCorder");
+        corder=Request.Form("txtCorder")
 		cstatus=Request.Form("rdCstatus")
 		'Kiểm tra nếu tên danh mục có rồi thì báo lỗi
 		sql="select * From 0203466_categories_1682 where cname='" & cname &"'"
@@ -111,6 +111,7 @@
 						<td><%=rs("cname")%></td>
 						<td><%=rs("cdesc")%></td>
 						<td><img src="images/<%=rs("cimage")%>" width=200></td>
+						<td><%=rs("corder")%></td>
 						<td><%
 								if (rs("cstatus")=1) then
 									response.write("Hoạt động")
