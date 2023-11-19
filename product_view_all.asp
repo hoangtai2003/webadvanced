@@ -48,11 +48,7 @@
 		rs.close 
 	end select 
 	sql = "select [0203466_product_1682].*,[0203466_categories_1682].cname, Thuonghieu.tenthuonghieu, Nhacungcap.tennhacc from 0203466_product_1682, 0203466_categories_1682, Thuonghieu, Nhacungcap where [0203466_product_1682].cid = [0203466_categories_1682].cid and [0203466_product_1682].mathuonghieu = Thuonghieu.mathuonghieu and [0203466_product_1682].manhacc = Nhacungcap.manhacc "
-	rs.open sql, conn  
-	sql1 = "select * from Thuonghieu"
-	rs1.open sql1, conn
-	sql2 = "select * from Nhacungcap"
-	rs2.open sql2, conn
+	rs.open sql, conn
 %>
 <html>
 	<head>
@@ -206,6 +202,10 @@
 			<%
 				if (Request("action")="add") then 
 				rs.open "select * from 0203466_categories_1682", conn 
+				sql1 = "select * from Thuonghieu"
+				rs1.open sql1, conn
+				sql2 = "select * from Nhacungcap"
+				rs2.open sql2, conn
 			%>
 			<h1 align=center>Thêm mới một sản phẩm</h1>
 		<center><font color=red><%=Session("product_add_error")%></font></center>
@@ -231,6 +231,8 @@
 					<td>Số lượng:</td>
 					<td><input type=text style="width:180px" name=txtPquantity></td>
 				</tr>
+				<%
+				 %>
 				<tr>
 					<td>Danh mục:</td>
 					<td>
