@@ -46,6 +46,10 @@
 			Session("product_error")="Cập nhật thành công"
 		end if
 		rs.close 
+	case "delete"
+		sql = "delete from 0203466_product_1682 where pid=" & pid 
+        conn.execute sql 
+        session("product_error")="Xóa thành công!"
 	end select 
 	sql = "select [0203466_product_1682].*,[0203466_categories_1682].cname, Thuonghieu.tenthuonghieu, Nhacungcap.tennhacc from 0203466_product_1682, 0203466_categories_1682, Thuonghieu, Nhacungcap where [0203466_product_1682].cid = [0203466_categories_1682].cid and [0203466_product_1682].mathuonghieu = Thuonghieu.mathuonghieu and [0203466_product_1682].manhacc = Nhacungcap.manhacc "
 	rs.open sql, conn
