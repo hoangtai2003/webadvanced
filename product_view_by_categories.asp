@@ -7,7 +7,7 @@
 		cid = rs0("configvalue")
 	end if 
 	rs1.open "select a.*,b.cname from [0203466_product_1682] a, [0203466_categories_1682] b  where a.cid=b.cid and a.cid=" & cid , conn 
-	
+	rs2.open "select q.*, c.cname from 0203466_categories_1682 c, QuangCao q where q.cid = c.cid and q.tungay <=Date() and q.denngay >=Date() and c.cid = "&cid, conn  
 %>
 <html>
 	<head>
@@ -127,30 +127,64 @@
 				else 
 					 
 			%>
+			<table align=center border = 1>
+				<tr>
+					<th>Mã</th>
+					<th>Tên</th>
+					<th>Từ ngày</th>
+					<th>Đến ngày</th>
+					<th>Ảnh</th>
+					<th>Link</th>
+					<th>Tên danh mục</th>
+				<tr>
+				<%
+					if (rs2.eof) then 
+						response.write("<tr><td colspan=10>Bảng không có dữ liệu!</td></tr>")
+					else 
+						while not rs2.eof
+				%>
+				<tr>
+					<td><%= rs2("ma")%></td>
+					<td><%=rs2("ten")%></td>
+					<td><%=rs2("tungay")%></td>
+					<td><%=rs2("denngay")%></td>
+					<td><img src="images/<%=rs2("anh")%>" width=200></td>
+					<td><%=rs2("link")%></td>
+					<td><%=rs2("cname")%></td>
+				</tr>
+				<%
+					rs2.movenext
+					wend
+					end if
+					rs2.close
+				%>
+
+			</table>
             <ul class="ul product-list  apple-product  product-list-full" id="product-list-home1144" style="min-height:200px;display: flex;flex-wrap: wrap;">
 				<%
 					while not rs1.eof
 				%>
 				<li onclick="" class="p-item-group">
-				<div class="p-container">
-				<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-img"><img src="images/<%=rs1("pimage")%>" alt="" width="200px"></a>
-				<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-name">
-					<%=rs1("pname")%>	
-				</a>
-				<br>
-				<span class="p-oldprice2"></span>
-				<span class="p-price2"><i>Giá bán:</i><%=rs1("pprice")%>₫</span>
-				<span class="p-bottom"><span style="color: #12bd1b;"><%
-					if (rs1("pquantity")>0) then 
-					%>✔ Có hàng
-					<%
-					else 
-						response.write("Hết hàng")
-					end if 
-					%>
-				</span>
-				<a href="" class="btn-cart-stop">Giỏ hàng</a></span>
-				</div>
+					<div class="p-container">
+						<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-img"><img src="images/<%=rs1("pimage")%>" alt="" width="200px"></a>
+						<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-name">
+							<%=rs1("pname")%>	
+						</a>
+						<br>
+						<span class="p-oldprice2"></span>
+						<span class="p-price2"><i>Giá bán:</i><%=rs1("pprice")%>₫</span>
+						<span class="p-bottom"><span style="color: #12bd1b;"><%
+							if (rs1("pquantity")>0) then 
+							%>✔ Có hàng
+							<%
+							else 
+								response.write("Hết hàng")
+							end if 
+							%>
+						</span>
+						<span><a href="" class="btn-cart-stop">Giỏ hàng</a></span>
+						<span>
+					</div>
 				</li>
 			<%
 				rs1.movenext
