@@ -181,13 +181,6 @@
 						<td><%=rs("cname")%></td>
 						<td><%=rs("tenthuonghieu")%></td>
 						<td><%=rs("tennhacc")%></td>
-						<td><%
-								if (rs("pstatus")=1) then
-									response.write("Hoạt động")
-								else 
-									response.write("Ngừng hoạt động")
-								end if 
-						%></td>
 						<td><a href="product_view_all.asp?action=edit&pid=<%=rs("pid")%>">Sửa</a></td>
 						<td><a onclick="return confirm('Bạn có chắc muốn xoá <%=rs("pname")%> hay ko?');"  href="product_view_all.asp?action=delete&pid=<%=rs("pid")%>">Xóa</a></td>
 					</tr>
