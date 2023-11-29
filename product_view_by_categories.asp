@@ -166,8 +166,8 @@
 				%>
 				<li onclick="" class="p-item-group">
 					<div class="p-container">
-						<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-img"><img src="images/<%=rs1("pimage")%>" alt="" width="200px"></a>
-						<a href="product_detail.asp?pid=<%=rs1("pid")%>" class="p-name">
+						<a href="product_detail_action.asp?pid=<%=rs1("pid")%>" class="p-img"><img src="images/<%=rs1("pimage")%>" alt="" width="200px"></a>
+						<a href="product_detail_action.asp?pid=<%=rs1("pid")%>" class="p-name">
 							<%=rs1("pname")%>	
 						</a>
 						<br>

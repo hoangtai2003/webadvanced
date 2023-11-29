@@ -62,7 +62,7 @@
 							</a>
 							</td>
 							<td>
-								<a href="product_detail_action	.asp?pid=<%=rs("pid")%>">Chi tiết</a>
+								<a href="product_detail_action.asp?pid=<%=rs("pid")%>">Chi tiết</a>
 							</td>
 					<%		
 					rs.movenext
