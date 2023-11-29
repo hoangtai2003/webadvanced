@@ -40,7 +40,7 @@
 					<td><%=rs("pprice")%></td>
 					<td><%=rs("pquantity")%></td>
 					<td><%=rs("cname")%></td>
-					<td><a href="product_detail.asp?pid=<%=rs("pid")%>">Chi tiết</a></td>
+					<td><a href="product_detail_action.asp?pid=<%=rs("pid")%>">Chi tiết</a></td>
 				</tr>
 			<%
 					rs.movenext

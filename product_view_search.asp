@@ -1,9 +1,9 @@
 <!--#include file="connection.asp"-->
 <%
 	rs.cursorLocation = 3
-	rs.pagesize = 2 
+	rs.pagesize = 3
 	'if (Request("cmd")<>"") then 
-		str = Request("txtSearch")
+	str = Request("txtSearch")
 	sql = "select a.*,b.cname from [0203466_product_1682] a, [0203466_categories_1682] b where a.cid = b.cid and pname like '%" & str & "%'"
 	rs.open sql, conn 'lấy dữ liệu
 	 
@@ -55,7 +55,7 @@
 					<td><%=rs("pprice")%></td>
 					<td><%=rs("pquantity")%></td>
 					<td><%=rs("cname")%></td>
-					<td><a href="product_detail.asp?pid=<%=rs("pid")%>">Chi tiết</a></td>
+					<td><a href="product_detail_action.asp?pid=<%=rs("pid")%>">Chi tiết</a></td>
 				</tr>
 			<%
 					rs.movenext
@@ -69,7 +69,7 @@
 					if (i=p) then
 						response.write(" " & i & " ")
 					else 
-						response.write(" <a href=?page=" & i & "&txtSearch=" & str & ">" & i & "</a> ")
+						response.write(" <a href=?page=" & i & ">" & i & "</a> ")
 					end if 
 					
 				next 
