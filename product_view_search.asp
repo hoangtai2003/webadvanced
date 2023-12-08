@@ -1,12 +1,13 @@
 <!--#include file="connection.asp"-->
 <%
+'Thuộc tính CursorLocation đặt hoặc trả về một giá trị dài cho biết vị trí của dịch vụ con trỏ
 	rs.cursorLocation = 3
 	rs.pagesize = 3
 	'if (Request("cmd")<>"") then 
 	str = Request("txtSearch")
 	sql = "select a.*,b.cname from [0203466_product_1682] a, [0203466_categories_1682] b where a.cid = b.cid and pname like '%" & str & "%'"
 	rs.open sql, conn 'lấy dữ liệu
-	 
+	'Lấy tổng số trang pagecount
 	pagecount = rs.pagecount 
 	p = Cint(Request("page"))
 	if (p<1) then
@@ -15,6 +16,7 @@
 	if (p>pagecount) then 
 		p = pagecount 
 	end if
+	'Thuộc tính absolutepage đặt hoặc trả về một giá trị dài xác định số trang trong đối tượng rs
 	rs.absolutepage = p 
 	'end if
 %>
