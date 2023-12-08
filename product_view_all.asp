@@ -181,6 +181,7 @@
 						<td><%=rs("cname")%></td>
 						<td><%=rs("tenthuonghieu")%></td>
 						<td><%=rs("tennhacc")%></td>
+						<td><%=rs("pstatus")%></td>
 						<td><a href="product_view_all.asp?action=edit&pid=<%=rs("pid")%>">Sửa</a></td>
 						<td><a onclick="return confirm('Bạn có chắc muốn xoá <%=rs("pname")%> hay ko?');"  href="product_view_all.asp?action=delete&pid=<%=rs("pid")%>">Xóa</a></td>
 					</tr>
